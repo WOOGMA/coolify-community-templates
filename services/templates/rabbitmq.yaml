@@ -1,0 +1,42 @@
+- templateVersion: 1.0.0
+  defaultVersion: "3.7"
+  documentation: https://rabbitmq.com/admin-guide.html
+  type: rabbitmq
+  name: RabbitMQ
+  description: RabbitMQ is the most widely deployed open source message broker.
+  labels:
+    - broker
+  services:
+    $$id:
+      name: RabbitMQ
+      depends_on: []
+      image: rabbitmq:$$config_rabbitmq_version
+      volumes:
+        - $$id-rabbitmq-data:/var/lib/rabbitmq
+      environment:
+        - RABBITMQ_DEFAULT_USER=$$config_rabbitmq_user
+        - RABBITMQ_DEFAULT_PASS=$$config_rabbitmq_password
+        - RABBITMQ_NODENAME=$$config_rabbitmq_nodename
+      ports:
+        - "5672"
+  variables:
+    - id: $$config_rabbitmq_version
+      name: RABBITMQ_VERSION
+      label: RabbitMQ Version Tag
+      description: Check out their Docker page for the valid tags https://hub.docker.com/r/library/rabbitmq/tags/
+      defaultValue: "3.7"
+    - id: $$config_rabbitmq_user
+      name: RABBITMQ_DEFAULT_USER
+      label: RabbitMQ Default User
+      description: The default user is the user you can use to make operation to the rabbitmq
+      defaultValue: ""
+    - id: $$config_rabbitmq_password
+      name: RABBITMQ_DEFAULT_PASS
+      label: RabbitMQ Default Password
+      description: The default password is for the default user.
+      defaultValue: ""
+    - id: $$config_rabbitmq_nodename
+      name: RABBITMQ_NODENAME
+      label: RabbitMQ Nodename
+      description: Nodename is appended to the end of the database directory.
+      defaultValue: "rabbit@localhost"
